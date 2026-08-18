@@ -3,8 +3,7 @@
 <h1>Video Transcoder</h1>
 
 <section class="upload-box">
-  <form hx-post="/jobs" hx-encoding="multipart/form-data" hx-target="#job-list" hx-swap="afterbegin"
-        hx-indicator="#spinner" id="upload-form">
+  <form id="upload-form">
     <label class="dropzone" for="file">
       <span id="file-label">Choose a video file…</span>
       <input type="file" id="file" name="file" accept="video/*,.mkv,.avi,.flv,.ts"
@@ -62,7 +61,17 @@
     </div>
 
     <button type="submit" class="primary">Start Transcode</button>
-    <span id="spinner" class="htmx-indicator">Uploading…</span>
+
+    <div id="upload-progress" class="upload-progress" hidden>
+      <div class="progress-track">
+        <div id="upload-progress-fill" class="progress-fill" style="width: 0%"></div>
+      </div>
+      <div class="upload-progress-meta">
+        <span id="upload-phase">Uploading…</span>
+        <span id="upload-percent">0%</span>
+      </div>
+    </div>
+    <p id="upload-error" class="error" hidden></p>
   </form>
 </section>
 

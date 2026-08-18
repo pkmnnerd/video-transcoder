@@ -131,3 +131,15 @@ button.primary { padding: 0.6rem 1.2rem; }
 .job-actions { margin-top: 0.6rem; display: flex; gap: 0.5rem; }
 .error { color: var(--red); font-size: 0.85rem; }
 .empty { color: var(--muted); }
+
+.upload-progress { margin-top: 0.75rem; }
+.upload-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+#upload-progress[hidden] { display: none; }
+#upload-error[hidden] { display: none; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
