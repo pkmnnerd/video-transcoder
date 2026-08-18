@@ -1,0 +1,133 @@
+:root {
+  --bg: #0f1115;
+  --panel: #171a21;
+  --border: #2a2f3a;
+  --text: #e6e8eb;
+  --muted: #8a919e;
+  --accent: #4f8cff;
+  --accent-hover: #3a76e8;
+  --green: #3fb950;
+  --red: #f85149;
+  --yellow: #d29922;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+h1 { font-size: 1.5rem; margin: 0 0 1rem; }
+h2 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+p { margin: 0.25rem 0; }
+
+.upload-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.dropzone {
+  display: block;
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--muted);
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+.dropzone:hover { border-color: var(--accent); }
+.dropzone input[type="file"] { display: none; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+label { font-size: 0.8rem; color: var(--muted); display: block; }
+label input, label select {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  padding: 0.45rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+button, .button {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+button:hover, .button:hover { background: var(--accent-hover); }
+button.primary { padding: 0.6rem 1.2rem; }
+
+.htmx-indicator { display: none; color: var(--muted); }
+.htmx-request .htmx-indicator { display: inline; }
+
+.job-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--muted);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.status-completed { border-left-color: var(--green); }
+.status-running, .status-pending { border-left-color: var(--yellow); }
+.status-failed, .status-aborted { border-left-color: var(--red); }
+
+.job-head { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.job-name { font-weight: 600; }
+.job-id { color: var(--muted); font-size: 0.75rem; }
+.badge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--border);
+  color: var(--muted);
+}
+.status-completed .badge { background: var(--green); color: #fff; }
+.status-running .badge { background: var(--yellow); color: #111; }
+.status-failed .badge, .status-aborted .badge { background: var(--red); color: #fff; }
+
+.progress-track {
+  height: 8px;
+  background: var(--bg);
+  border-radius: 999px;
+  margin: 0.6rem 0 0.6rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #7db0ff);
+  transition: width 0.6s ease;
+  border-radius: 999px;
+}
+
+.job-actions { margin-top: 0.6rem; display: flex; gap: 0.5rem; }
+.error { color: var(--red); font-size: 0.85rem; }
+.empty { color: var(--muted); }

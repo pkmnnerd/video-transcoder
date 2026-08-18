@@ -1,0 +1,52 @@
+services:
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+      - ./app:/app/app
+    environment:
+      - VIDEO_REDIS_URL=redis://redis:6379/0
+      - VIDEO_UPLOAD_DIR=/data/uploads
+      - VIDEO_OUTPUT_DIR=/data/outputs
+      - PYTHONDONTWRITEBYTECODE=1
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: .
+    restart: unless-stopped
+    command: ["arq", "app.workers.transcode.WorkerSettings"]
+    volumes:
+      - ./data:/data
+      - ./app:/app/app
+    environment:
+      - VIDEO_REDIS_URL=redis://redis:6379/0
+      - VIDEO_UPLOAD_DIR=/data/uploads
+      - VIDEO_OUTPUT_DIR=/data/outputs
+      - PYTHONDONTWRITEBYTECODE=1
+    depends_on:
+      redis:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: "2G"
+
+volumes:
+  redis_data:

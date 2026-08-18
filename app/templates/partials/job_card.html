@@ -1,0 +1,40 @@
+<div id="job-{{ job.id }}" class="job-card status-{{ job.status.value }}" data-job-id="{{ job.id }}"
+     data-status="{{ job.status.value }}">
+  <div class="job-head">
+    <span class="job-name">{{ job.original_filename }}</span>
+    <span class="job-id">{{ job.id }}</span>
+    <span class="badge" data-role="badge">{{ job.status.value }}</span>
+  </div>
+
+  {% if job.status.value == 'running' or job.status.value == 'pending' %}
+  <div class="progress-track">
+    <div class="progress-fill" data-role="progress" style="width: {{ job.progress }}%"></div>
+  </div>
+  <div class="job-actions">
+    <button hx-delete="/job/{{ job.id }}" hx-confirm="Abort this job?" hx-target="#job-{{ job.id }}" hx-swap="outerHTML">
+      Abort
+    </button>
+  </div>
+  {% endif %}
+
+  {% if job.status.value == 'completed' and job.output_path %}
+  <div class="job-actions">
+    <a class="button" href="/job/{{ job.id }}/download">Download</a>
+    <button hx-delete="/job/{{ job.id }}/delete" hx-confirm="Delete this job and its files?" hx-target="#job-{{ job.id }}" hx-swap="outerHTML">
+      Delete
+    </button>
+  </div>
+  {% endif %}
+
+  {% if job.status.value == 'failed' and job.error %}
+  <p class="error" data-role="error">{{ job.error }}</p>
+  {% endif %}
+
+  {% if job.status.value in ('aborted', 'failed') %}
+  <div class="job-actions">
+    <button hx-delete="/job/{{ job.id }}/delete" hx-confirm="Delete this job and its files?" hx-target="#job-{{ job.id }}" hx-swap="outerHTML">
+      Delete
+    </button>
+  </div>
+  {% endif %}
+</div>

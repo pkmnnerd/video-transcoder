@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Job {{ job.id }}{% endblock %}
+{% block content %}
+<p><a href="/">&larr; Back</a></p>
+<h1>Job {{ job.id }}</h1>
+
+{% include "partials/job_card.html" %}
+{% endblock %}

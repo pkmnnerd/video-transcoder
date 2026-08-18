@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Video Transcoder</h1>
+
+<section class="upload-box">
+  <form hx-post="/jobs" hx-encoding="multipart/form-data" hx-target="#job-list" hx-swap="afterbegin"
+        hx-indicator="#spinner" id="upload-form">
+    <label class="dropzone" for="file">
+      <span id="file-label">Choose a video file…</span>
+      <input type="file" id="file" name="file" accept="video/*,.mkv,.avi,.flv,.ts"
+             required onchange="document.getElementById('file-label').textContent = this.files[0]?.name ?? 'Choose a video file…'">
+    </label>
+
+    <div class="grid">
+      <label>Video codec
+        <select name="video_codec" id="video_codec">
+          {% for c in codecs %}
+          <option value="{{ c.value }}">{{ c.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>Quality (CRF, lower = better)
+        <input type="number" name="crf" id="crf" min="0" max="51" value="23">
+      </label>
+
+      <label>Preset
+        <select name="preset" id="preset">
+          {% for p in presets %}
+          <option value="{{ p }}" {% if p == 'medium' %}selected{% endif %}>{{ p }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>Resolution
+        <select name="resolution" id="resolution">
+          <option value="">Original</option>
+          <option value="3840x2160">4K (3840x2160)</option>
+          <option value="2560x1440">1440p (2560x1440)</option>
+          <option value="1920x1080">1080p (1920x1080)</option>
+          <option value="1280x720">720p (1280x720)</option>
+          <option value="854x480">480p (854x480)</option>
+          <option value="640x360">360p (640x360)</option>
+        </select>
+      </label>
+
+      <label>FPS (optional)
+        <input type="number" name="fps" id="fps" min="1" max="120" placeholder="keep original">
+      </label>
+
+      <label>Audio codec
+        <select name="audio_codec" id="audio_codec">
+          {% for a in audio_codecs %}
+          <option value="{{ a.value }}">{{ a.name }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <label>Audio bitrate
+        <input type="text" name="audio_bitrate" id="audio_bitrate" value="128k" placeholder="128k">
+      </label>
+    </div>
+
+    <button type="submit" class="primary">Start Transcode</button>
+    <span id="spinner" class="htmx-indicator">Uploading…</span>
+  </form>
+</section>
+
+<section>
+  <h2>Jobs</h2>
+  <div id="job-list" hx-get="/jobs" hx-trigger="every 3s" hx-swap="innerHTML">
+    {% include "partials/job_list.html" %}
+  </div>
+</section>
+{% endblock %}
