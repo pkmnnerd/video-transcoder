@@ -80,5 +80,9 @@
   <div id="job-list" hx-get="/jobs" hx-trigger="every 3s" hx-swap="innerHTML">
     {% include "partials/job_list.html" %}
   </div>
+  <div id="jobs-loading" class="jobs-loading" hidden>
+    <span class="spinner" aria-hidden="true"></span>
+    <span>Loading jobs…</span>
+  </div>
 </section>
 {% endblock %}

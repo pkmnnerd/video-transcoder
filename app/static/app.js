@@ -122,4 +122,20 @@
   }
 
   setupUpload();
+
+  /* Show the jobs-list spinner only while polling when there are no jobs yet. */
+  function setupJobsSpinner() {
+    const list = document.getElementById('job-list');
+    const spinner = document.getElementById('jobs-loading');
+    if (!list || !spinner) return;
+
+    list.addEventListener('htmx:beforeRequest', () => {
+      if (!list.querySelector('.job-card')) spinner.hidden = false;
+    });
+    list.addEventListener('htmx:afterRequest', () => {
+      spinner.hidden = true;
+    });
+  }
+
+  setupJobsSpinner();
 })();
