@@ -87,25 +87,6 @@ button.primary { padding: 0.6rem 1.2rem; }
 .htmx-indicator { display: none; color: var(--muted); }
 .htmx-request .htmx-indicator { display: inline; }
 
-.jobs-loading {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--muted);
-  margin-top: 0.5rem;
-}
-.jobs-loading[hidden] { display: none; }
-
-.spinner {
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
 .job-card {
   background: var(--panel);
   border: 1px solid var(--border);
